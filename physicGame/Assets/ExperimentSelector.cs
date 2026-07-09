@@ -7,9 +7,19 @@ public class ExperimentSelector : MonoBehaviour
     public Transform cameraViewPoint; // 카메라가 날아갈 목표 지점
     public GameObject experimentUI;   // 이 실험을 시작할 때 켜질 전용 UI
     public GameObject Graph;
+    public GameObject Ex1;
+    public GameObject Ex2;
+    public GameObject Ex3;
+    public GameObject Ex4;
+    public bool OnOff;
     
+    private CameraController cameraController;
+    private FreeFallExperiment freeFallExperiment;
+    private PhotoelectricEffect photoelectricEffect;
+    private BlackBodyRadiation blackBodyRadiation;
+    private MagnetFallExperiment magnetFallExperiment;
 
-    private CameraController cameraController; 
+    
 
     void Start()
     {
@@ -17,6 +27,10 @@ public class ExperimentSelector : MonoBehaviour
         if (Camera.main != null)
         {
             cameraController = Camera.main.GetComponent<CameraController>();
+            freeFallExperiment = Ex1.GetComponent<FreeFallExperiment>();
+            photoelectricEffect = Ex2.GetComponent<PhotoelectricEffect>();
+            blackBodyRadiation = Ex3.GetComponent<BlackBodyRadiation>();
+            magnetFallExperiment = Ex4.GetComponent<MagnetFallExperiment>();
         }
 
         if (cameraController == null)
@@ -29,6 +43,7 @@ public class ExperimentSelector : MonoBehaviour
         {
             experimentUI.SetActive(false);
             Graph.SetActive(false);
+            OnOff = false;
         }
     }
 
@@ -47,11 +62,16 @@ public class ExperimentSelector : MonoBehaviour
                 if (cameraController != null)
                 {
                     cameraController.ReturnToMenu();
+                    freeFallExperiment.ResetExperiment();
+                    photoelectricEffect.ResetExperiment();
+                    blackBodyRadiation.ResetExperiment();
+                    magnetFallExperiment.ResetExperiment();
                 }
 
                 // 2. 켜져 있던 현재 실험의 UI를 다시 숨깁니다.
                 experimentUI.SetActive(false);
                 Graph.SetActive(false);
+                OnOff = false;
             }
         }
     }
@@ -70,6 +90,7 @@ public class ExperimentSelector : MonoBehaviour
         {
             experimentUI.SetActive(true);
             Graph.SetActive(true);
+            OnOff = true;
         }
     }
 }

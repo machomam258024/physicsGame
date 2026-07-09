@@ -1,11 +1,13 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class PhotoelectricEffect : MonoBehaviour
 {
    [Header("레이저 설정")]
     public LineRenderer laserLine;
     public float maxDistance = 20f;
+    public GameObject ray;
 
     [Header("효과 설정")]
     public ParticleSystem electronEmission;
@@ -19,13 +21,25 @@ public class PhotoelectricEffect : MonoBehaviour
     [Range(0.5f, 3.0f)] public float frequency = 1.0f;
     [Range(0.5f, 2.0f)] public float lightIntensity = 1.0f;
 
+    public GameObject Panel;
+    private ExperimentSelector experimentSelector;
+    private bool noray;
+
     void Start()
     {
+        ray.SetActive(noray);
         if (electronEmission != null) electronEmission.Stop();
+        experimentSelector = Panel.GetComponent<ExperimentSelector>();
     }
 
     void Update()
     {
+        if (experimentSelector.OnOff == true)
+        {
+        if (noray == false)
+        {
+            ray.SetActive(true);
+        }
         // 1. 입력 처리
         if (Input.GetKey(KeyCode.UpArrow)) frequency += 0.5f * Time.deltaTime;
         if (Input.GetKey(KeyCode.DownArrow)) frequency -= 0.5f * Time.deltaTime;
@@ -39,6 +53,7 @@ public class PhotoelectricEffect : MonoBehaviour
         UpdateParticleLogic();
         UpdateUI(); 
         DrawLaser();
+        }
     }
 
     void UpdateParticleLogic()
@@ -90,7 +105,7 @@ public class PhotoelectricEffect : MonoBehaviour
         }
     }
 
-    public void ResetExperiment2()
+    public void ResetExperiment()
     {
         frequency = 1.0f;
         lightIntensity = 1.0f;

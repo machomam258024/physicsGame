@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class FreeFallExperiment : MonoBehaviour
 {
@@ -20,9 +21,14 @@ public class FreeFallExperiment : MonoBehaviour
     private float currentAcceleration = 0f;
     private float lastVelocity = 0f;
 
+    public GameObject Panel;
+    private ExperimentSelector experimentSelector;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        experimentSelector = Panel.GetComponent<ExperimentSelector>();
         
         if (rb == null)
         {
@@ -36,6 +42,8 @@ public class FreeFallExperiment : MonoBehaviour
 
     void Update()
     {
+        if (experimentSelector.OnOff == true)
+        {
         if (!isSimulating)
         {
             if (Input.GetKey(KeyCode.UpArrow))
@@ -62,6 +70,7 @@ public class FreeFallExperiment : MonoBehaviour
             {
                 StartFalling();
             }
+        }
         }
     }
 
@@ -122,9 +131,9 @@ public class FreeFallExperiment : MonoBehaviour
         }
     }
 
-    public void ResetExperiment1()
+    public void ResetExperiment()
     {
-        heightSpeed = 5f;
+        startPosition = new Vector3(-18, 5, 0);
         ResetToStartPosition(); // 원래 위치로 복구 및 물리 초기화
     }
 }

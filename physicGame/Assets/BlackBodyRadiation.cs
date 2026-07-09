@@ -16,9 +16,13 @@ public class BlackBodyRadiation : MonoBehaviour
     private Renderer objRenderer;
     private Material objMaterial;
 
+    public GameObject Panel;
+    private ExperimentSelector experimentSelector;
+
     void Start()
     {
         objRenderer = GetComponent<Renderer>();
+        experimentSelector = Panel.GetComponent<ExperimentSelector>();
         
         if (objRenderer != null)
         {
@@ -29,6 +33,8 @@ public class BlackBodyRadiation : MonoBehaviour
 
     void Update()
     {
+        if (experimentSelector.OnOff == true)
+        {
         // 1. 화살표 위/아래 키로 온도 조절
         if (Input.GetKey(KeyCode.UpArrow)) temperature += tempChangeSpeed * Time.deltaTime;
         if (Input.GetKey(KeyCode.DownArrow)) temperature -= tempChangeSpeed * Time.deltaTime;
@@ -43,6 +49,7 @@ public class BlackBodyRadiation : MonoBehaviour
         if (tempText != null)
         {
             tempText.text = $"T: {temperature:F1}";
+        }
         }
     }
 
@@ -92,7 +99,7 @@ public class BlackBodyRadiation : MonoBehaviour
         }
     }
 
-    public void ResetExperiment3()
+    public void ResetExperiment()
     {
         temperature = 100f; // 초기 온도로 복구
         UpdateRadiationColor();

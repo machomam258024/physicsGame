@@ -23,9 +23,13 @@ public class MagnetFallExperiment : MonoBehaviour
     
     private const float AccelDecreasePerSecond = 20f; 
 
+    public GameObject Panel;
+    private ExperimentSelector experimentSelector;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        experimentSelector = Panel.GetComponent<ExperimentSelector>();
         
         if (rb != null)
         {
@@ -38,6 +42,8 @@ public class MagnetFallExperiment : MonoBehaviour
 
     void Update()
     {
+        if (experimentSelector.OnOff == true)
+        {
         // 1. ⭐️ 자석 세기 조절 (시작 위치에 있을 때만 가능하도록 조건 추가)
         if (isAtStart)
         {
@@ -72,6 +78,7 @@ public class MagnetFallExperiment : MonoBehaviour
                     ResetToStartPosition();
                 }
             }
+        }
         }
     }
 
@@ -144,7 +151,7 @@ public class MagnetFallExperiment : MonoBehaviour
         }
     }
 
-    public void ResetExperiment4()
+    public void ResetExperiment()
     {
         magnetStrength = 1.0f; // 자석 세기 초기화
         ResetToStartPosition(); // 원래 위치로 복구 및 물리 초기화
